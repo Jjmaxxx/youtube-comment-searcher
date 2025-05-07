@@ -6,11 +6,10 @@ import re
 
 load_dotenv() 
 
-# SETUP
 API_KEY = os.getenv("YOUTUBE_API_KEY")
 VIDEO_ID = 'ImuWa3SJulY'
 SEARCH_TERMS = [s.lower() for s in [
-    "jpop", "JPOP", "anime", "sounds like" 
+    "jpop", "anime", "sounds like" 
 ]]
 
 
@@ -29,7 +28,6 @@ def translate_text(text, target_language='en', source_language = 'ko'):
 youtube = build('youtube', 'v3', developerKey=API_KEY, static_discovery=False)
 
 def match(text, terms):
-    """Return True if any search term is found in the text."""
     text = text.lower()
     return any(term in text for term in terms)
 
@@ -50,14 +48,12 @@ def get_matching_comments(video_id, search_terms):
             if match(top_text, search_terms):
                 if contains_korean(top_text):
                     top_text = translate_text(top_text)
-                print(top_text)
                 results.append({
                     "type": "top-level",
                     "author": top_comment["authorDisplayName"],
                     "text": top_text
                 })
 
-            # Check replies
             if "replies" in item:
                 for reply in item["replies"]["comments"]:
                     reply_snippet = reply["snippet"]
@@ -81,7 +77,6 @@ def save_to_csv(matches, filename="matching_comments.csv"):
         for row in matches:
             writer.writerow(row)
 
-# Run and export
 matches = get_matching_comments(VIDEO_ID, SEARCH_TERMS)
 save_to_csv(matches)
 
