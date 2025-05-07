@@ -6,7 +6,7 @@ import re
 
 load_dotenv() 
 
-API_KEY = os.getenv("YOUTUBE_API_KEY")
+API_KEY = os.getenv("GOOGLE_API_KEY")
 VIDEO_ID = 'ImuWa3SJulY'
 SEARCH_TERMS = [s.lower() for s in [
     "jpop", "anime", "sounds like" 
